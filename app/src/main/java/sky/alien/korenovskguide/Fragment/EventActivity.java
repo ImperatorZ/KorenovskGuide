@@ -10,9 +10,7 @@ import android.view.ViewGroup;
 
 import sky.alien.korenovskguide.R;
 
-/**
- * Created by asass on 18.03.2017.
- */
+
 
 public class EventActivity extends Fragment {
 
