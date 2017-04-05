@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new AllBuldingFirstFragment(), "Korenovsk");
         adapter.addFragment(new EventActivity(), "Event");
-        adapter.addFragment(new AllBuldingFirstFragment(), "Chat");
+        adapter.addFragment(new ChatActivity(), "Chat");
         viewPager.setAdapter(adapter);
     }
     class ViewPagerAdapter extends FragmentPagerAdapter {
