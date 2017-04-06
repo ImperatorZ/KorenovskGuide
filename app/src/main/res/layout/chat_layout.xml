@@ -32,6 +32,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="2dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/layoutToast"/>
         <ImageView
             android:id="@+id/buttonEmoji"
             android:layout_width="40dp"

@@ -25,6 +25,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.util.Util;
 import com.google.android.gms.auth.api.Auth;
@@ -95,6 +97,7 @@ public class ChatActivity extends Fragment implements GoogleApiClient.OnConnecti
     private EmojiconEditText edMessage;
     private View contentRoot;
     private EmojIconActions emojIcon;
+    private TextView layoutToast;
 
     //File
     private File filePathImageCamera;
@@ -111,14 +114,23 @@ public class ChatActivity extends Fragment implements GoogleApiClient.OnConnecti
                              Bundle savedInstanceState) {
 
         View fa = getView();
+
         ll = (LinearLayout)inflater.inflate(R.layout.chat_layout, container,false);
+        layoutToast = (TextView)inflater.inflate(R.id.layoutToast);
 
         return ll;
         //return inflater.inflate(R.layout.chat_layout, container, false);
 
         if (!UtilChat.verificaConexao(getActivity())){
-            UtilChat.initToast(null);
-//            finish();
+            Toast myToast = new Toast(getActivity());
+            myToast.setView(layoutToast);
+            myToast.setDuration(Toast.LENGTH_LONG);
+            myToast.show();
+            return fa;
+           // Toast.makeText(getActivity(),"Text!",Toast.LENGTH_SHORT).show();
+//           UtilChat.initToast(getActivity(),"LOL", Toast.LENGTH_SHORT);
+
+           // finish();
         }else{
             bindViews();
             verificaUsuarioLogado();
