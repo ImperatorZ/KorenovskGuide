@@ -116,7 +116,7 @@ public class ChatActivity extends Fragment implements GoogleApiClient.OnConnecti
         View fa = getView();
 
         ll = (LinearLayout)inflater.inflate(R.layout.chat_layout, container,false);
-        layoutToast = (TextView)inflater.inflate(R.id.layoutToast);
+        layoutToast = (TextView)fa.findViewById(R.id.layoutToast);
 
         return ll;
         //return inflater.inflate(R.layout.chat_layout, container, false);

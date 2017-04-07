@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "573119649530",
+    "firebase_url": "https://korenovskguide.firebaseio.com",
+    "project_id": "korenovskguide",
+    "storage_bucket": "korenovskguide.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:573119649530:android:e57d242ecf74038a",
+        "android_client_info": {
+          "package_name": "sky.alien.korenovskguide"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "573119649530-61fkdt6ris677af9tb9lnv9rs99ddh50.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "sky.alien.korenovskguide",
+            "certificate_hash": "dd59c502356982fa100bab24b1bfc5e12b8aff7b"
+          }
+        },
+        {
+          "client_id": "573119649530-qf1ev3iej7hsqkknrhacoei7g8vh13u2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyM91JyMSFgfdgIyDdfCuhpvbYkTqg3RY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "573119649530-qf1ev3iej7hsqkknrhacoei7g8vh13u2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
