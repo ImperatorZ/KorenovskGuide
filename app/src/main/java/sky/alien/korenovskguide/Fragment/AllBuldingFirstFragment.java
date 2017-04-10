@@ -134,13 +134,7 @@ public class AllBuldingFirstFragment extends Fragment {
 
         adapter.notifyDataSetChanged();
     }
-}
 
-
-
-    /**
-     * RecyclerView item decoration - give equal margin around grid item
-     */
     class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
 
         private int spanCount;
@@ -176,6 +170,7 @@ public class AllBuldingFirstFragment extends Fragment {
                     outRect.top = spacing; // item top
                 }
             }
+        }
 
         }
     }

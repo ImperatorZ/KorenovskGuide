@@ -8,19 +8,16 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.format.DateFormat;
 import android.util.Log;
-import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
@@ -44,6 +41,7 @@ import java.io.File;
 import java.util.Calendar;
 import java.util.Date;
 
+
 import hani.momanii.supernova_emoji_library.Actions.EmojIconActions;
 import hani.momanii.supernova_emoji_library.Helper.EmojiconEditText;
 import sky.alien.korenovskguide.adapter.ChatFirebaseAdapter;
@@ -55,13 +53,8 @@ import sky.alien.korenovskguide.model.UserModel;
 import sky.alien.korenovskguide.view.FullScreenImageActivity;
 import sky.alien.korenovskguide.view.LoginActivity;
 
-import static android.app.Activity.RESULT_OK;
+public class TestActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, ClickListenerChatFirebase {
 
-/**
- * Created by NeoGhost on 04.04.2017.
- */
-
-public class ChatActivity extends Fragment implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, ClickListenerChatFirebase {
     private static final int IMAGE_GALLERY_REQUEST = 1;
     private static final int IMAGE_CAMERA_REQUEST = 2;
     private static final int PLACE_PICKER_REQUEST = 3;
@@ -78,7 +71,6 @@ public class ChatActivity extends Fragment implements GoogleApiClient.OnConnecti
 
     //CLass Model
     private UserModel userModel;
-
 
     //Views UI
     private RecyclerView rvListMessage;
@@ -99,47 +91,25 @@ public class ChatActivity extends Fragment implements GoogleApiClient.OnConnecti
     };
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.chat_layout);
 
-
-        View rootView = inflater.inflate(R.layout.chat_layout, container, false);
-
-//        ll = (LinearLayout)inflater.inflate(R.layout.chat_layout, container,false);
-
-        //return inflater.inflate(R.layout.chat_layout, container, false);
-
-//        private void bindViews(){
-//
-//        }
-
-
-        if (!UtilChat.checkConnection(getActivity())){
-            UtilChat.initToast(getActivity(), "LOL");
-
+        if (!UtilChat.checkConnection(this)){
+            UtilChat.initToast(this,"Você não tem conexão com internet");
+            finish();
         }else{
+            bindViews();
             verificaUsuarioLogado();
-            contentRoot = rootView.findViewById(R.id.contentRoot);
-            edMessage = (EmojiconEditText)rootView.findViewById(R.id.editTextMessage);
-            btSendMessage = (ImageView)rootView.findViewById(R.id.buttonMessage);
-            btSendMessage.setOnClickListener(this);
-            btEmoji = (ImageView)rootView.findViewById(R.id.buttonEmoji);
-            emojIcon = new EmojIconActions(getActivity(),contentRoot,edMessage,btEmoji);
-            emojIcon.ShowEmojIcon();
-            rvListMessage = (RecyclerView)rootView.findViewById(R.id.messageRecyclerView);
-            mLinearLayoutManager = new LinearLayoutManager(getActivity());
-            mLinearLayoutManager.setStackFromEnd(true);
-
-            mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
-                    .enableAutoManage(getActivity(), this)
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .enableAutoManage(this, this)
                     .addApi(Auth.GOOGLE_SIGN_IN_API)
                     .build();
         }
-        return rootView;
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         StorageReference storageRef = storage.getReferenceFromUrl(UtilChat.URL_STORAGE_REFERENCE).child(UtilChat.FOLDER_STORAGE_IMG);
 
@@ -163,7 +133,7 @@ public class ChatActivity extends Fragment implements GoogleApiClient.OnConnecti
             }
         }else if (requestCode == PLACE_PICKER_REQUEST){
             if (resultCode == RESULT_OK) {
-                Place place = PlacePicker.getPlace(getActivity(), data);
+                Place place = PlacePicker.getPlace(this, data);
                 if (place!=null){
                     LatLng latLng = place.getLatLng();
                     MapModel mapModel = new MapModel(latLng.latitude+"",latLng.longitude+"");
@@ -177,38 +147,38 @@ public class ChatActivity extends Fragment implements GoogleApiClient.OnConnecti
 
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu_chat, menu);
-//        return true;
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_chat, menu);
+        return true;
+    }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//
-//        switch (item.getItemId()){
-//            case R.id.sendPhoto:
-//                verifyStoragePermissions();
-////                photoCameraIntent();
-//                break;
-//            case R.id.sendPhotoGallery:
-//                photoGalleryIntent();
-//                break;
-//            case R.id.sendLocation:
-//                locationPlacesIntent();
-//                break;
-//            case R.id.sign_out:
-//                signOut();
-//                break;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.sendPhoto:
+                verifyStoragePermissions();
+//                photoCameraIntent();
+                break;
+            case R.id.sendPhotoGallery:
+                photoGalleryIntent();
+                break;
+            case R.id.sendLocation:
+                locationPlacesIntent();
+                break;
+            case R.id.sign_out:
+                signOut();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
-        UtilChat.initToast(getActivity(),"Google Play Services error.");
+        UtilChat.initToast(this,"Google Play Services error.");
     }
 
 
@@ -223,7 +193,7 @@ public class ChatActivity extends Fragment implements GoogleApiClient.OnConnecti
 
     @Override
     public void clickImageChat(View view, int position,String nameUser,String urlPhotoUser,String urlPhotoClick) {
-        Intent intent = new Intent(getActivity(),FullScreenImageActivity.class);
+        Intent intent = new Intent(this,FullScreenImageActivity.class);
         intent.putExtra("nameUser",nameUser);
         intent.putExtra("urlPhotoUser",urlPhotoUser);
         intent.putExtra("urlPhotoClick",urlPhotoClick);
@@ -245,22 +215,22 @@ public class ChatActivity extends Fragment implements GoogleApiClient.OnConnecti
         if (storageReference != null){
             final String name = DateFormat.format("yyyy-MM-dd_hhmmss", new Date()).toString();
             StorageReference imageGalleryRef = storageReference.child(name+"_gallery");
-            UploadTask uploadTask = imageGalleryRef.putFile(file);
-            uploadTask.addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.e(TAG,"onFailure sendFileFirebase "+e.getMessage());
-                }
-            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Log.i(TAG,"onSuccess sendFileFirebase");
-                    Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                    FileModel fileModel = new FileModel("img",downloadUrl.toString(),name,"");
-                    ChatModel chatModel = new ChatModel(userModel,"",Calendar.getInstance().getTime().getTime()+"",fileModel);
-                    mFirebaseDatabaseReference.child(CHAT_REFERENCE).push().setValue(chatModel);
-                }
-            });
+                UploadTask uploadTask = imageGalleryRef.putFile(file);
+                uploadTask.addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG,"onFailure sendFileFirebase "+e.getMessage());
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Log.i(TAG,"onSuccess sendFileFirebase");
+                        Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                        FileModel fileModel = new FileModel("img",downloadUrl.toString(),name,"");
+                        ChatModel chatModel = new ChatModel(userModel,"",Calendar.getInstance().getTime().getTime()+"",fileModel);
+                        mFirebaseDatabaseReference.child(CHAT_REFERENCE).push().setValue(chatModel);
+                    }
+                });
         }else{
             //IS NULL
         }
@@ -272,7 +242,7 @@ public class ChatActivity extends Fragment implements GoogleApiClient.OnConnecti
      */
     private void sendFileFirebase(StorageReference storageReference, final File file){
         if (storageReference != null){
-            Uri photoURI = FileProvider.getUriForFile(getActivity(),
+            Uri photoURI = FileProvider.getUriForFile(TestActivity.this,
                     BuildConfig.APPLICATION_ID + ".provider",
                     file);
             UploadTask uploadTask = storageReference.putFile(photoURI);
@@ -303,7 +273,7 @@ public class ChatActivity extends Fragment implements GoogleApiClient.OnConnecti
     private void locationPlacesIntent(){
         try {
             PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-            startActivityForResult(builder.build(getActivity()), PLACE_PICKER_REQUEST);
+            startActivityForResult(builder.build(this), PLACE_PICKER_REQUEST);
         } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {
             e.printStackTrace();
         }
@@ -316,7 +286,7 @@ public class ChatActivity extends Fragment implements GoogleApiClient.OnConnecti
         String nomeFoto = DateFormat.format("yyyy-MM-dd_hhmmss", new Date()).toString();
         filePathImageCamera = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), nomeFoto+"camera.jpg");
         Intent it = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        Uri photoURI = FileProvider.getUriForFile(getActivity(),
+        Uri photoURI = FileProvider.getUriForFile(TestActivity.this,
                 BuildConfig.APPLICATION_ID + ".provider",
                 filePathImageCamera);
         it.putExtra(MediaStore.EXTRA_OUTPUT,photoURI);
@@ -361,9 +331,6 @@ public class ChatActivity extends Fragment implements GoogleApiClient.OnConnecti
                 }
             }
         });
-//        final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-//        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-
         rvListMessage.setLayoutManager(mLinearLayoutManager);
         rvListMessage.setAdapter(firebaseAdapter);
     }
@@ -375,8 +342,8 @@ public class ChatActivity extends Fragment implements GoogleApiClient.OnConnecti
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         if (mFirebaseUser == null){
-            startActivity(new Intent(getActivity(), LoginActivity.class));
-            getActivity().finish();
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
         }else{
             userModel = new UserModel(mFirebaseUser.getDisplayName(), mFirebaseUser.getPhotoUrl().toString(), mFirebaseUser.getUid() );
             lerMessagensFirebase();
@@ -386,6 +353,18 @@ public class ChatActivity extends Fragment implements GoogleApiClient.OnConnecti
     /**
      * Vincular views com Java API
      */
+    private void bindViews(){
+        contentRoot = findViewById(R.id.contentRoot);
+        edMessage = (EmojiconEditText)findViewById(R.id.editTextMessage);
+        btSendMessage = (ImageView)findViewById(R.id.buttonMessage);
+        btSendMessage.setOnClickListener(this);
+        btEmoji = (ImageView)findViewById(R.id.buttonEmoji);
+        emojIcon = new EmojIconActions(this,contentRoot,edMessage,btEmoji);
+        emojIcon.ShowEmojIcon();
+        rvListMessage = (RecyclerView)findViewById(R.id.messageRecyclerView);
+        mLinearLayoutManager = new LinearLayoutManager(this);
+        mLinearLayoutManager.setStackFromEnd(true);
+    }
 
     /**
      * Sign Out no login
@@ -393,8 +372,8 @@ public class ChatActivity extends Fragment implements GoogleApiClient.OnConnecti
     private void signOut(){
         mFirebaseAuth.signOut();
         Auth.GoogleSignInApi.signOut(mGoogleApiClient);
-        startActivity(new Intent(getActivity(), LoginActivity.class));
-//        finish();
+        startActivity(new Intent(this, LoginActivity.class));
+        finish();
     }
 
     /**
@@ -405,12 +384,12 @@ public class ChatActivity extends Fragment implements GoogleApiClient.OnConnecti
      */
     public void verifyStoragePermissions() {
         // Check if we have write permission
-        int permission = ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int permission = ActivityCompat.checkSelfPermission(TestActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
         if (permission != PackageManager.PERMISSION_GRANTED) {
             // We don't have permission so prompt the user
             ActivityCompat.requestPermissions(
-                    getActivity(),
+                    TestActivity.this,
                     PERMISSIONS_STORAGE,
                     REQUEST_EXTERNAL_STORAGE
             );

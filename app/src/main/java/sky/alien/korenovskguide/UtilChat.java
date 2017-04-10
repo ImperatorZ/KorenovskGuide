@@ -16,13 +16,13 @@ public class UtilChat {
         Toast.makeText(c,message,Toast.LENGTH_SHORT).show();
     }
 
-    public  static boolean verificaConexao(Context context) {
-        boolean conectado;
+    public  static boolean checkConnection(Context context) {
+        boolean connected;
         ConnectivityManager conectivtyManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        conectado = conectivtyManager.getActiveNetworkInfo() != null
+        connected = conectivtyManager.getActiveNetworkInfo() != null
                 && conectivtyManager.getActiveNetworkInfo().isAvailable()
                 && conectivtyManager.getActiveNetworkInfo().isConnected();
-        return conectado;
+        return connected;
     }
 
     public static String local(String latitudeFinal,String longitudeFinal){

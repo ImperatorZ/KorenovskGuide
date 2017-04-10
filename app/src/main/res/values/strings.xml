@@ -4,7 +4,39 @@
     <string name="sign_out">Sign Out</string>
     <string name="select_picture_title">Get Photo From</string>
     <string name="sendPhotoGallery">Photo Gallery</string>
-    <string name="api_key_google_places">AIzaSyBisbsq9wIW8Q2Isj033c3wXqtTBRyaRBA</string>
+    <string name="api_key_google_places">AIzaSyB1hXNjn4i6uCsNY2OuqrM5P_w0hw9bZ54</string>
     <string name="sendLocation">Send Location</string>
+    <!--<string name="api_key_google_places">AIzaSyBisbsq9wIW8Q2Isj033c3wXqtTBRyaRBA</string>-->
     <string name="locationTo">Localização Enviada</string>
+
+    <string name="item1_navigationDrawer">Test 1</string>
+    <string name="item2_navigationDrawer">Test 2</string>
+
+
+    <!-- OVERWRITE THESE COLORS FOR A DARK THEME -->
+    <!-- MaterialDrawer DEFAULT DARK colors -->
+    <color name="material_drawer_dark_background">#303030</color>
+    <!-- MaterialDrawer DEFAULT DARK text / items colors -->
+    <color name="material_drawer_dark_primary_text">#DEFFFFFF</color>
+    <color name="material_drawer_dark_primary_icon">#8AFFFFFF</color>
+    <color name="material_drawer_dark_secondary_text">#8AFFFFFF</color>
+    <color name="material_drawer_dark_hint_text">#42FFFFFF</color>
+    <color name="material_drawer_dark_divider">#1FFFFFFF</color>
+    <!-- MaterialDrawer DEFAULT DARK drawer colors -->
+    <color name="material_drawer_dark_selected">#202020</color>
+    <color name="material_drawer_dark_selected_text">@color/material_drawer_primary</color>
+    <color name="material_drawer_dark_header_selection_text">#FFF</color>
+
+
+    <!--NAVIGATION DRAWER -->
+
+    <string name="action_settings">Settings</string>
+    <string name="drawer_item_home">Home</string>
+    <string name="drawer_item_free_play">Free Play</string>
+    <string name="drawer_item_custom">Custom</string>
+    <string name="drawer_item_settings">Settings</string>
+    <string name="drawer_item_help">Help</string>
+    <string name="drawer_item_open_source">Open Source</string>
+    <string name="drawer_item_contact">Contact</string>
+
 </resources>
